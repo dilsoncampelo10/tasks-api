@@ -1,7 +1,5 @@
 package com.dilson.tasksapi.controllers;
 
-import java.net.URI;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,42 +10,39 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.dilson.tasksapi.models.User;
-import com.dilson.tasksapi.services.UserService;
+import com.dilson.tasksapi.models.Task;
+import com.dilson.tasksapi.services.TaskService;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/task")
+public class TaskController {
 
     @Autowired
-    private UserService userService;
+    private TaskService taskService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
-        User user = userService.findById(id);
-        return ResponseEntity.ok().body(user);
+    public ResponseEntity<Task> findById(@PathVariable Long id) {
+        Task task = this.taskService.findById(id);
+        return ResponseEntity.ok().body(task);
     }
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody User user) {
-        User newUser = this.userService.create(user);
-
-        return ResponseEntity.ok().body(newUser);
+    public ResponseEntity<Task> create(@RequestBody Task task) {
+        Task newTask = this.taskService.create(task);
+        return ResponseEntity.ok().body(newTask);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@RequestBody User user, Long id) {
-        user.setId(id);
-        this.userService.update(user);
+    public ResponseEntity<Void> update(@RequestBody Task task, @PathVariable Long id) {
+        task.setId(id);
+        this.taskService.update(task);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(Long id) {
-        this.userService.delete(id);
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        this.taskService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
