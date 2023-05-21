@@ -1,6 +1,7 @@
 package com.dilson.tasksapi.services;
 
 import java.util.Optional;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,11 @@ public class TaskService {
         return task.orElseThrow(() -> new RuntimeException("Tarefa não encontrada!"));
     }
 
+    public List<Task> findByUser(Long userId) {
+        List<Task> tasks = this.taskRepository.findByUser_Id(userId);
+        return tasks;
+    }
+
     public Task create(Task task) {
         User user = this.userService.findById(task.getUser().getId());
         task.setId(null);
@@ -41,7 +47,7 @@ public class TaskService {
         return newTask;
     }
 
-    public void delete(Long id){
+    public void delete(Long id) {
         findById(id);
         this.taskRepository.deleteById(id);
     }

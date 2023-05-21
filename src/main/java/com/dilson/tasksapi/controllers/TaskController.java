@@ -1,5 +1,7 @@
 package com.dilson.tasksapi.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,6 +27,12 @@ public class TaskController {
     public ResponseEntity<Task> findById(@PathVariable Long id) {
         Task task = this.taskService.findById(id);
         return ResponseEntity.ok().body(task);
+    }
+
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<Task>> findByUserId(@PathVariable Long userId) {
+        List<Task> tasks = this.taskService.findByUser(userId);
+        return ResponseEntity.ok().body(tasks);
     }
 
     @PostMapping
